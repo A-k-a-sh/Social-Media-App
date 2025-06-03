@@ -2,8 +2,7 @@ import React, { useEffect } from 'react'
 
 import '../../globals.css'
 import { bottombarLinks } from '@/Constants'
-import { INavLink } from '@/type'
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext, INITIAL_USER } from '@/Context/AuthContext';
 import { useSignOutAccoutMutation } from '@/lib/react-query/queriesAndMutations';
 

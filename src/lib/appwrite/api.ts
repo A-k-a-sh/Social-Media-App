@@ -622,7 +622,7 @@ export async function getFollowerInfo(followerIDs: string[], followingIDs: strin
             });
         }
 
-        const results = await Promise.all(queries.map(q => q.promise));
+        const results = await Promise.all(queries.map((q: { key: string, promise: Promise<any> }) => q.promise));
         const resultMap = Object.fromEntries(results.map((res, i) => [queries[i].key, res]));
 
         return {

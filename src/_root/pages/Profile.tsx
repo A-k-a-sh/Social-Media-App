@@ -3,7 +3,6 @@ import Loader from "@/components/shared/Loader";
 import { Button } from "@/components/ui/button";
 import { useAuthContext } from "@/Context/AuthContext";
 import { useGetFollowInfoMutation, useGetUserByIdMutation, useGiveFollowMutation, useGiveUnFollowMutation, useIsAlreadyFollowingMutation } from "@/lib/react-query/queriesAndMutations";
-import { Models } from "appwrite";
 import { useState } from "react";
 import { useParams } from "react-router-dom"
 import AllUsers from "./AllUsers";
