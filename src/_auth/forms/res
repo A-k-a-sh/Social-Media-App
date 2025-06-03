@@ -1,0 +1,57 @@
+//User
+newUser = {
+    [Log] Object (SignUpForm.tsx, line 50)
+
+$createdAt: "2024-12-16T08:54:34.751+00:00"
+
+$id: "675feac9001379ea8dc4"
+
+$updatedAt: "2024-12-16T08:54:34.751+00:00"
+
+accessedAt: "2024-12-16T08:54:34.745+00:00"
+
+email: "abc@gmail.com"
+
+emailVerification: false
+
+labels: [] (0)
+
+mfa: false
+
+name: "abcd"
+
+passwordUpdate: "2024-12-16T08:54:34.745+00:00"
+
+phone: ""
+
+phoneVerification: false
+
+prefs: {}
+
+registration: "2024-12-16T08:54:34.745+00:00"
+
+status: true
+
+targets: [Object] (1)
+
+Object Prototype
+
+}
+
+//post
+
+$collectionId: "675fecca0011c12ef9ff"
+$createdAt: "2025-05-30T08:27:52.711+00:00"
+$databaseId: "675fec790005f9dfe1f1"
+$id: "68396c08001485a5ce29"
+$permissions: (3) ['read("user:676271f40021eed50c54")', 'update("user:676271f40021eed50c54")', 'delete("user:676271f40021eed50c54")']
+$updatedAt: "2025-05-30T15:38:09.106+00:00"
+Caption: "My new post on this site"
+creator: {name: 'abc', username: 'abc', accountId: '676271f40021eed50c54', email: 'abc@gmail.com', bio: null, …}
+imageId: "6839d0da0018c1ba7274"
+imageUrl: "https://cloud.appwrite.io/v1/storage/buckets/675febee00386aa2c37b/files/6839d0da0018c1ba7274/view?project=675fd68800235488056a&project=675fd68800235488056a"
+likes: []
+location: "Las vegas, usa"
+save: []
+tags: (3) ['math', 'vector', 'd']
+[[Prototype]]: Object
