@@ -27,7 +27,7 @@ const GridPostList = ({
               alt="post"
               className="h-80 w-full object-cover hover:scale-105 duration-300"
             />) : (
-              <div className="small-medium lg:base-medium py-5 ">
+              <div className="small-medium lg:base-medium py-5 px-4">
 
                 {post?.Caption}
 
