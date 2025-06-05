@@ -22,11 +22,28 @@ const GridPostList = ({
       {posts.map((post) => (
         <li key={post.$id} className="relative min-w-80 h-80 pr-4  overflow-hidden">
           <Link to={`/PostDetails/${post.$id}`} className="grid-post_link">
-            <img
+            {post.imageUrl ? (<img
               src={post.imageUrl}
               alt="post"
               className="h-full w-full object-cover hover:scale-105 duration-300"
-            />
+            />) : (
+              <div className="small-medium lg:base-medium py-5 ">
+
+                {post?.Caption}
+
+                <ul className="flex gap-1 mt-2">
+                  {post?.tags?.map((tag: string) => {
+                    return (
+                      <li className="text-light-3" key={tag}>
+                        #{tag + ''}
+                      </li>
+                    )
+                  })}
+                </ul>
+
+              </div>
+            )}
+
           </Link>
 
           <div className="grid-post_user">
