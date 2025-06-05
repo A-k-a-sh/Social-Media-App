@@ -115,21 +115,26 @@ export const signOutAccout = async () => {
 //create post and save it to db
 
 export async function createPost(post: INewPost) {
+    let fileUrl = null;
+    let uploadedFile = null;
     try {
         //first upload image to stroage
-        const uploadedFile = await uploadFile(post.file[0]);
+        if (post.file) {
+            uploadedFile = await uploadFile(post.file[0]);
 
-        //now atach the image to the post
-        if (!uploadedFile) throw Error;
+            //now atach the image to the post
+            if (!uploadedFile) throw Error;
+            //Get the file url
+            fileUrl = getFilePreview(uploadedFile.$id);
 
-        //Get the file url
-        const fileUrl = getFilePreview(uploadedFile.$id);
-
-        if (!fileUrl) {
-            //if file corrupted during upload , then we delete the file from stroage an db
-            deleteFile(uploadedFile.$id);
-            throw Error; //deletting from the storage hasn't been done yet
+            if (!fileUrl) {
+                //if file corrupted during upload , then we delete the file from stroage an db
+                deleteFile(uploadedFile.$id);
+                throw Error; //deletting from the storage hasn't been done yet
+            }
         }
+
+
 
         //convert tags into an array
         const tags = post.tags?.replace(/ /g, "").split(",") || [];
@@ -143,17 +148,19 @@ export async function createPost(post: INewPost) {
                 creator: post.userId,
                 Caption: post.caption,
                 imageUrl: fileUrl,
-                imageId: uploadedFile.$id,
+                imageId: uploadedFile?.$id,
                 location: post.location,
                 tags: tags
             }
         )
 
         if (!newPost) {
-
-            deleteFile(uploadedFile.$id);
-            throw Error;
+            if (post.file && uploadedFile?.$id) {
+                deleteFile(uploadedFile.$id);
+            }
+            throw new Error("Failed to create post");
         }
+
 
         return newPost
 
@@ -598,7 +605,7 @@ export async function givingUnfollow(userId: string, followingId: string) {
 
 export async function getFollowerInfo(followerIDs: string[], followingIDs: string[]) {
     try {
-        const queries : any = [];
+        const queries: any = [];
 
         if (followerIDs && followerIDs.length > 0) {
             queries.push({
