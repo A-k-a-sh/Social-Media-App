@@ -27,19 +27,11 @@ const GridPostList = ({
               alt="post"
               className="h-80 w-full object-cover hover:scale-105 duration-300"
             />) : (
-              <div className="small-medium lg:base-medium py-5 px-4">
+              <div className="small-medium lg:base-medium py-5 px-4 line-clamp-3">
 
                 {post?.Caption}
 
-                <ul className="flex gap-1 mt-2">
-                  {post?.tags?.map((tag: string) => {
-                    return (
-                      <li className="text-light-3" key={tag}>
-                        #{tag + ''}
-                      </li>
-                    )
-                  })}
-                </ul>
+
 
               </div>
               
