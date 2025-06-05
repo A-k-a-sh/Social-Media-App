@@ -42,7 +42,10 @@ const GridPostList = ({
                 </ul>
 
               </div>
+              
             )}
+
+            <br />
 
           </Link>
 
