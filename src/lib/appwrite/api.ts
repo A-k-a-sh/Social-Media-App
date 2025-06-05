@@ -174,7 +174,8 @@ export async function createPost(post: INewPost) {
 
 // ============================== UPDATE POST
 export async function updatePost(post: IUpdatePost) {
-    const hasFileToUpdate = post.file.length > 0;
+    let hasFileToUpdate = false;
+    if(post.file)hasFileToUpdate = post?.file.length > 0;
 
     try {
         let image = {
@@ -182,9 +183,9 @@ export async function updatePost(post: IUpdatePost) {
             imageId: post.imageId,
         };
 
-        if (hasFileToUpdate) {
+        if (hasFileToUpdate && post.file) {
             // Upload new file to appwrite storage
-            const uploadedFile = await uploadFile(post.file[0]);
+             const uploadedFile = await uploadFile(post?.file[0]);
             if (!uploadedFile) throw Error;
 
             // Get new file url
