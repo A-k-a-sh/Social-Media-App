@@ -119,7 +119,8 @@ export async function createPost(post: INewPost) {
     let uploadedFile = null;
     try {
         //first upload image to stroage
-        if (post.file) {
+        if (post.file?.length) {
+            console.log(post.file.length);
             uploadedFile = await uploadFile(post.file[0]);
 
             //now atach the image to the post
@@ -264,6 +265,7 @@ export async function deletePost(postId?: string, imageId?: string) {
 
 //in this function we mainly uploading the img file to stroage (not in db)
 export async function uploadFile(file: File) {
+    if(!file) return null;
     try {
 
         const uploadedFile = await storage.createFile(

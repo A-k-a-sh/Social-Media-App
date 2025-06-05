@@ -82,11 +82,14 @@ const PostDetails = () => {
         <Loader />
       ) : (
         <div className="post_details-card">
-          <img
-            src={post?.imageUrl}
-            alt="creator"
-            className="post_details-img  xl:sticky top-0 "
-          />
+          {post?.imageUrl && (
+            <img
+              src={post?.imageUrl}
+              alt="creator"
+              className="post_details-img  xl:sticky top-0 "
+            />
+          )}
+
 
           <div className="post_details-info">
             <div className="flex-between w-full">

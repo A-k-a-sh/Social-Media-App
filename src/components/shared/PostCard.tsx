@@ -75,11 +75,11 @@ const PostCard = ({ post }: PostCardProps) => {
 
                     {post?.Caption}
 
-                    <ul className="flex gap-1 mt-2"> 
+                    <ul className="flex gap-1 mt-2">
                         {post?.tags?.map((tag: string) => {
                             return (
                                 <li className="text-light-3" key={tag}>
-                                    #{tag + ''} 
+                                    #{tag + ''}
                                 </li>
                             )
                         })}
@@ -87,11 +87,17 @@ const PostCard = ({ post }: PostCardProps) => {
 
                 </div>
 
-                <img 
-                    src={post?.imageUrl ||  '/assets/icons/profile-placeholder.svg'} 
-                    alt="" 
-                    className="post-card_img"
-                />
+
+                {
+                    post?.imageUrl && (
+                        <img
+                            src={post?.imageUrl || '/assets/icons/profile-placeholder.svg'}
+                            alt=""
+                            className="post-card_img"
+                        />
+                    )
+                }
+
 
             </Link>
 
