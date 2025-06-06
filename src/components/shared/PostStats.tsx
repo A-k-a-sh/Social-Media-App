@@ -62,7 +62,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
         e.stopPropagation()
 
         if (savedPostRecord) {
-            
+
             setIsSaved(false)
             deleteSavedPost(savedPostRecord.$id)
             return
@@ -76,15 +76,25 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
         <div className="flex justify-between items-center z-20">
 
             <div className="flex  items-center gap-2 mr-5">
-                <img
-                    src={checkIsLiked(likesList, userId) ? "/assets/icons/liked.svg" : "/assets/icons/like.svg"}
-                    width={20}
-                    height={20}
-                    onClick={handleLikePost}
-                    className="cursor-pointer"
-                    alt="like"
-                />
-                <p className="small-medium lg:base-medium">{likes.length}</p>
+                <div className="flex flex-row gap-4 items-center ">
+                    <img
+                        src={checkIsLiked(likesList, userId) ? "/assets/icons/liked.svg" : "/assets/icons/like.svg"}
+                        width={20}
+                        height={20}
+                        onClick={handleLikePost}
+                        className="cursor-pointer"
+                        alt="like"
+                    />
+                    <p className="small-medium lg:base-medium">{likes.length}</p>
+                    <img 
+                        src="/assets/icons/comments.svg" 
+                        width={20}
+                        height={20}
+                        onClick={() => { }}
+                        className="cursor-pointer"
+                        alt="" />
+                    <p className="small-medium lg:base-medium">0</p>
+                </div>
             </div>
             <div className="flex  items-center gap-2 ">
                 <img

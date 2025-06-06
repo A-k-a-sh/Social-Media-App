@@ -151,7 +151,7 @@ function Profile() {
 
         </div>
 
-        <div className="mt-10">
+        <div className="mt-10 w-full">
           {select === 1 && <GridPostList posts={userInfo?.posts || []} showUser={false} showStats={true} />}
 
           {select === 2 && <AllUsers

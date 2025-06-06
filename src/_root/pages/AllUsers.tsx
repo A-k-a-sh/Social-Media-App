@@ -20,12 +20,12 @@ const AllUsers = ({ allUsers: propAllUsers, isGetFromProps = false }: { allUsers
 
 
   return (
-    <div className=' flex flex-col flex-1 items-center overflow-scroll py-10 px-5 md:p-14 custom-scrollbar'>
+    <div className={`w-full flex flex-col   overflow-scroll px-4 py-10  custom-scrollbar ${!isGetFromProps && 'md:px-14'}`}>
 
       {!isGetFromProps &&
-        <h2 className='h3-bold md:h2-bold text-left w-full mb-2 '>Find People</h2>
+        <h2 className='h3-bold md:h2-bold text-left w-full mb-4 '>Find People</h2>
       }
-      <div className='user-grid '>
+      <div className='user-grid   mx-auto '>
 
         {
           allUsers?.documents.filter((user: any) =>!isGetFromProps ? user.$id !== currentUser.id : user).map((user: Models.Document, index: number) => (

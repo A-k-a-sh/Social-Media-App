@@ -21,17 +21,17 @@ const GridPostList = ({
     <ul className="grid-container ">
       {posts.map((post) => (
         <li key={post.$id} className="relative min-w-80 h-fit pr-4  overflow-hidden">
-          <Link to={`/PostDetails/${post.$id}`} className="grid-post_link">
+          <Link to={`/PostDetails/${post.$id}`} className="grid-post_link ">
             {post.imageUrl ? (<img
               src={post.imageUrl}
               alt="post"
               className="h-80 w-full object-cover hover:scale-105 duration-300"
             />) : (
-              <div className="small-medium h-full lg:base-medium py-5 px-4">
+              <div className="small-medium h-full lg:base-medium py-5 px-4 ">
 
                 {post?.Caption}
 
-                <ul className="flex gap-1 mt-2">
+                <ul className="flex gap-1 mt-2 ">
                   {post?.tags?.map((tag: string) => {
                     return (
                       <li className="text-light-3" key={tag}>
@@ -48,7 +48,7 @@ const GridPostList = ({
 
           </Link>
 
-          <div className="grid-post_user">
+          <div className={`${post.imageUrl && 'grid-post_user'} flex-between pl-2`}>
             {showUser && (
               <div className="flex items-center justify-start gap-2 flex-1 ">
                 <img
