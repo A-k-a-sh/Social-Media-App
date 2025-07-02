@@ -100,7 +100,8 @@ const Comments = ({ postId }: { postId: string }) => {
     // console.log(commentID)
     if (!allComments) return
     if (!commentID) return
-    let usr = {};
+
+    let usr = {username : ''}
     const comment = allComments?.find(({ comment }) => {
 
       if (comment.$id === commentID) {
