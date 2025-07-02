@@ -23,4 +23,8 @@ export enum QUERY_KEYS {
     GET_FOLLOWING = "getFollowing",
     IS_ALREADY_FOLLOWING = "isAlreadyFollowing",
     GET_FOLLOW_INFO = "getFollowInfo",
+
+    //comment keys
+    GET_COMMENTS = "getComments",
+    GET_REPLIES = "getReplies"
   }

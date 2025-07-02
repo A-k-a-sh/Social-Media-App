@@ -8,7 +8,7 @@ import '../../globals.css'
 
 const Topbar = () => {
     const navigate = useNavigate();
-    const {user} = useAuthContext();
+    const {user} = useAuthContext(); 
 
     const {mutateAsync : signOutAccout , isSuccess : isSigningOutSuccess} = useSignOutAccoutMutation();
 

@@ -22,6 +22,8 @@ import {
 import { multiFormatDateString } from "@/lib/utils";
 import { useAuthContext } from "@/Context/AuthContext";
 import { Models } from "appwrite";
+import Comments from "@/components/shared/Comments";
+import { useEffect, useState } from "react";
 
 const PostDetails = () => {
   const navigate = useNavigate();
@@ -38,6 +40,8 @@ const PostDetails = () => {
 
   const { data: currentUser } = useGetCurrentUserMutation();
   const { mutate: deleteSavedPost } = useDeleteSavedPostMutation()
+
+  const {showComment , setShowComment} = useAuthContext()
 
 
   const relatedPosts = userPosts?.documents.filter(
@@ -61,8 +65,17 @@ const PostDetails = () => {
     navigate(-1);
   };
 
+  // console.log(showComment)
+
+ 
+
+
+
   return (
-    <div className="post_details-container">
+    <div
+      className="post_details-container  "
+      onClick={() => setShowComment(false)}
+    >
       <div className="hidden md:flex max-w-5xl w-full">
         <Button
           onClick={() => navigate(-1)}
@@ -182,6 +195,16 @@ const PostDetails = () => {
           <GridPostList posts={relatedPosts} />
         )}
       </div>
+      {
+        showComment &&
+        <div
+          className="absolute  top-[10%] sm:bottom-0 max-w-5xl max-h-[60%]  z-50"
+          
+          onClick={(e) => e.stopPropagation()}
+        >
+          {post?.$id && <Comments postId={post.$id} />}
+        </div>
+      }
     </div>
   );
 };

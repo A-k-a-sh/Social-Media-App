@@ -20,6 +20,20 @@ export type INavLink = {
     location?: string;
     tags?: string;
   };
+
+  export type INewComment = {
+    userId: string;
+    postId: string;
+    text: string;
+  }
+
+  export type IComment = {
+    $id : string;
+    comment : string;
+    creator : IUser;
+    reactionIDs : string[];
+    parentCommentIDs: string[];
+  }
   
   export type IUpdatePost = {
     postId: string;

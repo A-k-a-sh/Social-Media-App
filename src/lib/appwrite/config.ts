@@ -1,4 +1,4 @@
-import { Client, Account , Databases, Storage , Avatars} from 'appwrite';
+import { Client, Account , Databases, Storage , Avatars ,OAuthProvider} from 'appwrite';
 
 export const appwriteConfing = {
     projectId : import.meta.env.VITE_APPWRITE_PROJECT_ID,
@@ -9,6 +9,7 @@ export const appwriteConfing = {
     postCollectionId : import.meta.env.VITE_APPWRIRE_POSTS_COLLECTION_ID,
     savesCollectionId : import.meta.env.VITE_APPWRIRE_SAVES_COLLECTION_ID,
     followersFollowingId : import.meta.env.VITE_APPWRIRE_FOLLOWERS_FOLLOWING_ID,
+    commentCollectionId : import.meta.env.VITE_APPWRIRE_COMMENTS_ID,
 }
 
 // console.log(import.meta.env.VITE_APPWRITE_PROJECT_ID);

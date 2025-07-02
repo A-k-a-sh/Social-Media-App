@@ -4,15 +4,25 @@ import Loader from '@/components/shared/Loader'
 import { useGetRecentPostsMutation } from '@/lib/react-query/queriesAndMutations'
 import { Models } from 'appwrite'
 import PostCard from '@/components/shared/PostCard'
+import { useAuthContext } from '@/Context/AuthContext'
+import Comments from '@/components/shared/Comments'
+import { useEffect } from 'react'
 const Home = () => {
 
   const { data: posts, isLoading: isPostLoading } = useGetRecentPostsMutation()
+  const { setShowComment} = useAuthContext()
 
+   useEffect(() => {
+    setShowComment(false)
+  }, [])
 
 
 
   return (
-    <div className='flex flex-1 overflow-hidden '>
+    <div 
+      className='flex flex-1 overflow-hidden  '
+      
+    >
 
       <div className='home-container  '>
 
@@ -27,6 +37,7 @@ const Home = () => {
           ) : (
             <ul className='flex flex-col flex-1 items-center overflow-hidden gap-9 w-full'>
               {posts?.documents.map((post: Models.Document) => {
+                
                 return (
                   <li key={post.$id } className='w-full flex justify-center'>
 
@@ -42,6 +53,8 @@ const Home = () => {
         </div>
 
       </div>
+
+      
 
     </div>
   )

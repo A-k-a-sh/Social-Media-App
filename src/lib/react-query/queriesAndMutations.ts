@@ -1,4 +1,4 @@
-import { INewPost, INewUser, IUpdatePost } from '@/type'
+import { INewComment, INewPost, INewUser, IUpdatePost } from '@/type'
 import {
   //QueryClient,
   //QueryClientProvider,
@@ -9,7 +9,7 @@ import {
   //useInfiniteQuery
 } from '@tanstack/react-query'
 
-import { createPost, createUserAccount, deleteSavedPost, getRecentPost, likePost, savePost, signInAccount, signOutAccout, getCurrentUser, getPostById, updatePost, deletePost, getUserPosts, getInfinitePosts, searchPost, getAllUsers, getSavedPosts, givingFollow, isAlreadyFollowing, getUserById, getFollowInfo, givingUnfollow, getFollowerInfo } from '../appwrite/api'
+import { createPost, createUserAccount, deleteSavedPost, getRecentPost, likePost, savePost, signInAccount, signOutAccout, getCurrentUser, getPostById, updatePost, deletePost, getUserPosts, getInfinitePosts, searchPost, getAllUsers, getSavedPosts, givingFollow, isAlreadyFollowing, getUserById, getFollowInfo, givingUnfollow, getFollowerInfo, addComment, addCommentReply, getComments,  toggleReactionToComment } from '../appwrite/api'
 import { QUERY_KEYS } from './queryKeys'
 import { useId } from 'react'
 
@@ -308,6 +308,51 @@ export const useGetFollowInfoMutation = (userId: string) => {
     queryFn: () => getFollowInfo(userId),
     enabled: !!userId,
     staleTime: 0, // Optional: disables caching completely
+  })
+}
+
+export const useAddNewCommentMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn : (comment : INewComment) => addComment(comment),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_COMMENTS] })
+    }
+  })
+}
+
+
+export const useAddNewReplyMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation ({
+    mutationFn : ({comment , parentCommentId} : {comment : INewComment , parentCommentId : string}) => addCommentReply(comment , parentCommentId),
+    
+    onSuccess : () => {
+      queryClient.invalidateQueries({queryKey : [QUERY_KEYS.GET_COMMENTS]})
+    }
+  })
+}
+
+
+export const useGetAllComments = (postId : string) =>{
+  return useQuery ({
+    queryKey : [QUERY_KEYS.GET_COMMENTS , postId],
+    queryFn : () => getComments(postId),
+    enabled : !!postId
+  })
+}
+
+
+export const toggleReactionToCommentMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn : ({commentId , userId} : {commentId : string , userId : string}) => toggleReactionToComment(commentId , userId),
+    onSuccess : () => {
+      queryClient.invalidateQueries({queryKey : [QUERY_KEYS.GET_COMMENTS]})
+    }
   })
 }
 

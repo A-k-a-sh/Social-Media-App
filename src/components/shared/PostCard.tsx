@@ -3,6 +3,7 @@ import { multiFormatDateString } from "@/lib/utils"
 import { Models } from "appwrite"
 import { Link, } from "react-router-dom"
 import PostStats from "./PostStats"
+import { useGetAllComments } from "@/lib/react-query/queriesAndMutations"
 
 
 
@@ -13,10 +14,14 @@ type PostCardProps = {
 
 const PostCard = ({ post }: PostCardProps) => {
 
+    
+
     const { user } = useAuthContext();
 
     if (!post?.creator) return;
     // console.log(post);
+
+    const { data: allComments, isLoading: isAllCommentLoading } = useGetAllComments(post.$id)
 
 
     return (
@@ -76,9 +81,9 @@ const PostCard = ({ post }: PostCardProps) => {
                     {post?.Caption}
 
                     <ul className="flex gap-1 mt-2 ">
-                        {post?.tags?.map((tag: string) => {
+                        {post?.tags?.map((tag: string , index : Number) => {
                             return (
-                                <li className="text-light-3" key={tag}>
+                                <li className="text-light-3" key={`${tag}-${index}`}>
                                     #{tag + ''}
                                 </li>
                             )
@@ -101,7 +106,7 @@ const PostCard = ({ post }: PostCardProps) => {
 
             </Link>
 
-            <PostStats post={post} userId={user?.id} />
+            <PostStats post={post} userId={user?.id}  />
 
         </div>
     )

@@ -1,7 +1,10 @@
-import { useDeleteSavedPostMutation, useGetCurrentUserMutation, useLikePostMutation, useSavePostMutation } from "@/lib/react-query/queriesAndMutations"
+import { useAuthContext } from "@/Context/AuthContext"
+import { useDeleteSavedPostMutation, useGetAllComments, useGetCurrentUserMutation, useLikePostMutation, useSavePostMutation } from "@/lib/react-query/queriesAndMutations"
 import { checkIsLiked } from "@/lib/utils"
 import { Models } from "appwrite"
 import React, { useEffect, useState } from "react"
+import { Navigate, useNavigate } from "react-router-dom"
+import { MessageCircle } from 'lucide-react';
 
 type PostStatsProps = {
     post: Models.Document
@@ -12,7 +15,12 @@ type PostStatsProps = {
 
 const PostStats = ({ post, userId }: PostStatsProps) => {
 
+    const { showComment, setShowComment } = useAuthContext()
+
     const { data: currentUser } = useGetCurrentUserMutation()
+
+
+    const navigate = useNavigate()
 
     // console.log(post)
 
@@ -24,6 +32,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
     const { mutate: likePost } = useLikePostMutation()
     const { mutate: savePost } = useSavePostMutation()
     const { mutate: deleteSavedPost } = useDeleteSavedPostMutation()
+
 
 
 
@@ -77,23 +86,31 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 
             <div className="flex  items-center gap-2 mr-5">
                 <div className="flex flex-row gap-4 items-center ">
-                    <img
-                        src={checkIsLiked(likesList, userId) ? "/assets/icons/liked.svg" : "/assets/icons/like.svg"}
-                        width={20}
-                        height={20}
-                        onClick={handleLikePost}
-                        className="cursor-pointer"
-                        alt="like"
-                    />
-                    <p className="small-medium lg:base-medium">{likes.length}</p>
-                    <img 
-                        src="/assets/icons/comments.svg" 
-                        width={20}
-                        height={20}
-                        onClick={() => { }}
-                        className="cursor-pointer"
-                        alt="" />
-                    <p className="small-medium lg:base-medium">0</p>
+                    <div className="flex flex-row items-center gap-2">
+                        <img
+                            src={checkIsLiked(likesList, userId) ? "/assets/icons/liked.svg" : "/assets/icons/like.svg"}
+                            width={20}
+                            height={20}
+                            onClick={handleLikePost}
+                            className="cursor-pointer"
+                            alt="like"
+                        />
+                        <p className="small-medium lg:base-medium">{likes.length}</p>
+                    </div>
+                    <div className="flex flex-row items-center gap-2">
+                        <MessageCircle
+                            width={20}
+                            height={20}
+                            className="text-violet-400/80 font-bold cursor-pointer"
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                setShowComment(true)
+                                navigate(`/PostDetails/${post.$id}`)
+                            }}
+                        />
+
+                        <p className="small-medium lg:base-medium">{post?.comments?.length}</p>
+                    </div>
                 </div>
             </div>
             <div className="flex  items-center gap-2 ">

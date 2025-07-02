@@ -1,4 +1,4 @@
-import { INewPost, INewUser, IUpdatePost } from "@/type"; //just normal type defined in type folder 
+import { INewComment, INewPost, INewUser, IUpdatePost } from "@/type"; //just normal type defined in type folder 
 import { account, appwriteConfing, avatars, databases, storage } from "./config";
 import { ID, Query } from "appwrite";
 
@@ -176,7 +176,7 @@ export async function createPost(post: INewPost) {
 // ============================== UPDATE POST
 export async function updatePost(post: IUpdatePost) {
     let hasFileToUpdate = false;
-    if(post.file)hasFileToUpdate = post?.file.length > 0;
+    if (post.file) hasFileToUpdate = post?.file.length > 0;
 
     try {
         let image = {
@@ -186,7 +186,7 @@ export async function updatePost(post: IUpdatePost) {
 
         if (hasFileToUpdate && post.file) {
             // Upload new file to appwrite storage
-             const uploadedFile = await uploadFile(post?.file[0]);
+            const uploadedFile = await uploadFile(post?.file[0]);
             if (!uploadedFile) throw Error;
 
             // Get new file url
@@ -265,7 +265,7 @@ export async function deletePost(postId?: string, imageId?: string) {
 
 //in this function we mainly uploading the img file to stroage (not in db)
 export async function uploadFile(file: File) {
-    if(!file) return null;
+    if (!file) return null;
     try {
 
         const uploadedFile = await storage.createFile(
@@ -687,3 +687,136 @@ export async function getFollowInfo(userId: string) {
 
 }
 
+
+//add new comment
+export async function addComment(comment: INewComment) {
+
+    try {
+        const newComment = await databases.createDocument(
+            appwriteConfing.databasesId,
+            appwriteConfing.commentCollectionId,
+            ID.unique(),
+            {
+                comment: comment.text,
+                post: comment.postId,
+                creator: comment.userId
+            }
+        )
+    }
+    catch (error) {
+        console.log(error)
+
+
+    }
+}
+
+
+//add reply to a comment
+export async function addCommentReply(comment: INewComment, parentCommentID: string) {
+    try {
+        //find the comment
+
+        const parentComment = await databases.getDocument(
+            appwriteConfing.databasesId,
+            appwriteConfing.commentCollectionId,
+            parentCommentID
+        )
+
+        // 2. Prepare the updated array
+        const parentCommentIDs = parentComment.parentCommentIDs || [];
+        parentCommentIDs.push(parentCommentID); // Add the current parent ID
+
+
+        const newComment = await databases.createDocument(
+            appwriteConfing.databasesId,
+            appwriteConfing.commentCollectionId,
+            ID.unique(),
+            {
+                comment: comment.text,
+                post: comment.postId,
+                creator: comment.userId,
+                parentCommentIDs: parentCommentIDs
+            }
+
+        )
+
+
+
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+//get all the comment
+export const getComments = async (postId: string) => {
+  try {
+    // 1. Fetch all comments for the given post
+    const allCommentsFromDb = await databases.listDocuments(
+      appwriteConfing.databasesId,
+      appwriteConfing.commentCollectionId,
+      [Query.equal("post", postId)]
+    );
+
+    const comments = allCommentsFromDb.documents;
+
+    // 2. Get only top-level comments (no parents)
+    const topLevelComments = comments.filter(
+      (comment) => !comment.parentCommentIDs || comment.parentCommentIDs.length === 0
+    );
+
+    // 3. For each top-level comment, find its replies
+    const structuredComments = topLevelComments.map((comment) => {
+      const commentId = comment.$id;
+
+      const replyComments = comments.filter(
+        (reply) => reply.parentCommentIDs?.[0] === commentId
+      );
+      comment.replies = replyComments;
+
+      return {
+        comment,
+      };
+    });
+
+    return structuredComments;
+
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    throw error;
+  }
+};
+
+export const toggleReactionToComment = async(commentId : string, userId : string) => {
+    try {
+        const comment = await databases.getDocument(
+            appwriteConfing.databasesId,
+            appwriteConfing.commentCollectionId,
+            commentId,
+        )
+
+        if (!comment) throw Error;
+
+        const reactionIDs = comment.reactionIDs || [];
+
+        if (reactionIDs.includes(userId)) {
+            reactionIDs.splice(reactionIDs.indexOf(userId), 1);
+        } else {
+            reactionIDs.push(userId);
+        }
+        const result = await databases.updateDocument(
+            appwriteConfing.databasesId,
+            appwriteConfing.commentCollectionId,
+            commentId,
+            {
+                reactionIDs: reactionIDs
+            }
+        )
+
+        return result
+
+    } catch (error) {
+        console.log(error)
+    }
+}

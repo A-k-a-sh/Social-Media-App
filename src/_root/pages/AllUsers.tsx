@@ -5,6 +5,7 @@ import { Models } from 'appwrite'
 import { Link } from 'react-router-dom'
 
 const AllUsers = ({ allUsers: propAllUsers, isGetFromProps = false }: { allUsers?: Models.Document, isGetFromProps?: boolean }) => {
+  
   const { data: fetchedUsers, isLoading: isFetching } = useGetAllUsersMutation()
   const { user: currentUser } = useAuthContext()
 

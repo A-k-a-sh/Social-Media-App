@@ -23,7 +23,9 @@ const INITIAL_STATE = {
     isAuthenticated: false,
     setUser: () => { },
     setIsAuthenticated: () => { },
-    checkAuthUser: async () => false as boolean
+    checkAuthUser: async () => false as boolean,
+    setShowComment : () => {},
+    showComment : false
 }
 
 
@@ -34,6 +36,9 @@ type IContextType = {
     setUser: React.Dispatch<React.SetStateAction<IUser>>;
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
     checkAuthUser: () => Promise<boolean>;
+    setShowComment : React.Dispatch<React.SetStateAction<boolean>>;
+    showComment : boolean
+
 };
 
 
@@ -48,6 +53,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<IUser>(INITIAL_USER);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const[showComment , setShowComment] = useState(false)
 
     const navigate = useNavigate();
 
@@ -124,7 +130,9 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
         setIsAuthenticated,
         isLoading,
         setIsLoading,
-        checkAuthUser
+        checkAuthUser,
+        showComment,
+        setShowComment
     }
 
     return (
