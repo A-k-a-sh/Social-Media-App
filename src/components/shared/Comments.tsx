@@ -99,7 +99,8 @@ const Comments = ({ postId }: { postId: string }) => {
   const getParentCommentUser = (commentID: string) => {
     // console.log(commentID)
     if (!allComments) return
-    if (!commentID) return
+    if (!commentID) return 
+    
 
     let usr = {username : ''}
     const comment = allComments?.find(({ comment }) => {
